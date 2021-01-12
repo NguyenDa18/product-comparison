@@ -1,73 +1,56 @@
-import React from 'react';
-import { Container, Typography, Grid, Box } from '@material-ui/core';
+import React, { useState } from "react";
 
-import ProductList from './ProductList'
-import ComparisonTable from './ComparisonTable'
-import AttributeFilter from './AttributeFilter'
-import SectionHeader from './SectionHeader'
-import withSampleData from './withSampleData'
+import { Container } from "@material-ui/core";
 
-import '../App.css';
+import AttributeFilter from "./AttributeFilter";
+import ProductList from "./ProductList";
+import ComparisonTable from "./ComparisonTable";
+import SectionHeader from "./SectionHeader";
 
-class ProductComparison extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            selectedItems: new Set(),
-            selectedFilters: new Set(props.filters)
-        }
-        this.addToCompare = this.addToCompare.bind(this);
-        this.removeFromCompare = this.removeFromCompare.bind(this);
-    }
+const ProductComparison = ({ products, filters }) => {
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedFilters, setSelectedFilters] = useState(filters);
 
-    componentDidMount() {
-        this.setState({
-            selectedFilters: new Set(this.props.filters)
-        })
-    }
+  const addToCompare = (item) => {
+    setSelectedItems((selectedItems) => [...selectedItems, item]);
+  };
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.props.filters !== prevProps.filters) {
-            this.setState({
-                selectedFilters: new Set(this.props.filters)
-            })
-        }
-    }
+  const removeFromCompare = (item) => {
+    const filteredItems = selectedItems.filter(
+      (product) => product.id !== item.id
+    );
+    setSelectedItems((selectedItems) => filteredItems);
+  };
 
-    addToCompare = (item) => {
-        console.log("Item Added", item)
-        this.setState(prevState => ({
-            selectedItems: new Set(prevState.selectedItems).add(item)
-        }))
-    }
+  const saveFilters = (selected) => {
+    setSelectedFilters((selectedFilters) => selected);
+  };
 
-    removeFromCompare = (item) => {
-        const selected = new Set(this.state.selectedItems);
-        selected.delete(item);
-        this.setState({
-            selectedItems: selected,
-        })
-    }
+  return (
+    <Container maxWidth="md">
+      <SectionHeader title="Select 2 or more products to compare">
+        {selectedItems.length > 1 && (
+          <AttributeFilter
+            save={saveFilters}
+            data={filters}
+            selected={selectedFilters}
+          />
+        )}
+      </SectionHeader>
+      <ProductList
+        data={products}
+        selected={[...selectedItems]}
+        addToCompare={addToCompare}
+        removeFromCompare={removeFromCompare}
+      />
+      {selectedItems.length > 1 && (
+        <ComparisonTable
+          data={[...selectedItems]}
+          filters={[...selectedFilters]}
+        />
+      )}
+    </Container>
+  );
+};
 
-    saveFilters = (selected) => {
-        const selectedFilters = new Set(selected);
-        this.setState({
-            selectedFilters: selectedFilters
-        })
-
-    }
-
-    render() {
-        return (
-            <Container maxWidth="md">
-                <SectionHeader title="Select 2 or more products for comparison">
-                    {this.state.selectedItems.size > 1 && <AttributeFilter save={this.saveFilters} data={this.props.filters} selected={this.state.selectedFilters} />}
-                </SectionHeader>
-                <ProductList data={this.props.products} selected={[...this.state.selectedItems]} addToCompare={this.addToCompare} removeFromCompare={this.removeFromCompare} />
-                {this.state.selectedItems.size > 1 && <ComparisonTable data={[...this.state.selectedItems]} filters={[...this.state.selectedFilters]} />}
-            </Container>
-        );
-    }
-}
-
-export default withSampleData(ProductComparison);
+export default ProductComparison;

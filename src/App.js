@@ -1,13 +1,9 @@
-import React from 'react';
-import ProductComparison from './components/ProductComparison';
+import React from "react";
+import ProductComparison from "./components/ProductComparison";
 
-class App extends React.Component {
+import { products } from "./data/Products";
+import { filters } from "./data/Filters";
 
-  render() {
-    return (
-      <ProductComparison />
-    );
-  }
-}
+const App = () => <ProductComparison products={products} filters={filters} />;
 
 export default App;

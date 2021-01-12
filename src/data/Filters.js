@@ -1,6 +1,7 @@
 export const filters = [
-    "price",
-    "colors",
-    "condition",
-    "description",
-    "vendors"]
+  "price",
+  "colors",
+  "condition",
+  "description",
+  "vendors",
+];
