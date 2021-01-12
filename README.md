@@ -1,18 +1,10 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h1>
+React Product Compare Page
+</h1>
 
-CSS Framework [Material UI](https://material-ui.com)
+<ul>
+    <li>Simple React Hooks for State Mgmt</li>
+    <li>Material UI styling</li>
+</ul>
 
-## Demo
-Checkout the [Demo](https://shabnam701.github.io/product-comparison)
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+[View in CodeSandbox](https://codesandbox.io/s/wild-frost-8wkfd?fontsize=14&hidenavigation=1&theme=light&view=preview)
